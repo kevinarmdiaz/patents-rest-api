@@ -14,7 +14,7 @@ def get_letter_patent(id):
     return chr(65 + (letter_position))
 
 def get_number_patent(id):
-    return id - 999*(id//999)
+    return id - 999*(id//999) - 1
 
 
 
@@ -32,7 +32,7 @@ class PatentsGeneratorView(APIView):
             return Response({f"Patent of Id {id} is": patent})
         if patent:
             patent = patent.upper()
-            id  = (ord(patent[0])-65)*999 + int(patent[4:])
+            id  = (ord(patent[0])-65)*999 + int(patent[4:]) + 1
             return Response({f"Id of Patent {patent} is": id})
 
 
