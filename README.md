@@ -1,4 +1,4 @@
-# Rest API imageMaker
+# Rest API Patentes
 Prueba de concepto donde ser construye un API rest para obtener una patente de acuerdo a un Id, o un Id de acuerdo a una patente
 # Condiciones de la prueba
 ·  El dominio de las patentes corresponde al siguientes: [AAAA000, AAAA001, …, ZZZZ999], el ID es secuencial, comienza en 1.
