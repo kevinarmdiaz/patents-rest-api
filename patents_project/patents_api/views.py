@@ -3,18 +3,17 @@ from rest_framework.response import Response
 from rest_framework import status
 from patents_api import serializers
 from rest_framework.views import APIView
-from math import log10
-def get_number_by_letter(range_id):
-    return (log10(range_id) - 1)
 
 def get_letter_patent(id):
-    letter_position = id//999
+    id = id - 1
+    letter_position = id//1000
     if letter_position <=0:
          letter_position = 0
     return chr(65 + (letter_position))
 
 def get_number_patent(id):
-    return id - 999*(id//999) - 1
+    id = id - 1
+    return id - 1000*(id//1000)
 
 
 
@@ -29,10 +28,12 @@ class PatentsGeneratorView(APIView):
         patent = qp_serializer.data.get('patent', None)
         if id is not None:
             patent = f"{get_letter_patent(id)*4}{get_number_patent(id):03d}"
+            validate_patent = serializers.PatentsSerializer(data={'patent':patent})
+            validate_patent.is_valid(raise_exception=True)
             return Response({f"Patent of Id {id} is": patent})
         if patent:
             patent = patent.upper()
-            id  = (ord(patent[0])-65)*999 + int(patent[4:]) + 1
-            return Response({f"Id of Patent {patent} is": id})
+            id  = (ord(patent[0])-65)*1000 + int(patent[4:])
+            return Response({f"Id of Patent {patent} is": id + 1})
 
 
